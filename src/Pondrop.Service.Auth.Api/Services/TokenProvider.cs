@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Microsoft.Rest;
+using Pondrop.Service.Auth.Api.Models;
 using Pondrop.Service.Auth.Api.Services.Interfaces;
-using Pondrop.Service.Auth.Application.Models.Signin;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,26 +12,41 @@ public class JWTTokenProvider : IJWTTokenProvider
 {
 
     private readonly IConfiguration _configuration;
-    public JWTTokenProvider(IConfiguration configuration)
+    private readonly ILogger<JWTTokenProvider> _logger;
+
+    public JWTTokenProvider(IConfiguration configuration,
+        ILogger<JWTTokenProvider> logger)
     {
-        this._configuration = configuration;
+        _configuration = configuration;
+        _logger = logger;
+
     }
 
-    public SigninResponse Authenticate(SigninRequest request)
+    public string AuthenticateShopper(TokenRequest request)
     {
-        // Else we generate JSON Web Token
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var tokenKey = Encoding.UTF8.GetBytes(_configuration["JWT:Key"]);
-        var tokenDescriptor = new SecurityTokenDescriptor
+        string accessToken = string.Empty;
+        try
         {
-            Subject = new ClaimsIdentity(new Claim[]
-          {
-             new Claim(ClaimTypes.Email, request.Email)
-          }),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
-        };
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        return new SigninResponse { AccessToken = tokenHandler.WriteToken(token) };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenKey = Encoding.UTF8.GetBytes(_configuration["JWT:Key"]);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                  {
+                 new Claim(JwtRegisteredClaimNames.Sub, request.Id.ToString()),
+                 new Claim(JwtRegisteredClaimNames.Email, request.Email)
+                  }),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
 
+            accessToken = token is not null ? tokenHandler.WriteToken(token) : string.Empty;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Authentication failed: ", ex);
+        }
+
+        return accessToken;
     }
 }

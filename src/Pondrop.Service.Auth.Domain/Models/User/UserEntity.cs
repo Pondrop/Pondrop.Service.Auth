@@ -29,6 +29,9 @@ public record UserEntity : EventEntity
     [JsonProperty(PropertyName = "email")]
     public string Email { get; private set; }
 
+    [JsonProperty(PropertyName = "normalizedEmail")]
+    public string NormalizedEmail { get; private set; }
+
     [JsonProperty(PropertyName = "lastLogin")]
     public DateTime? LastLogin { get; private set; }
 
@@ -74,6 +77,7 @@ public record UserEntity : EventEntity
     {
         Id = create.Id;
         Email = create.Email;
+        NormalizedEmail = create.Email.ToUpper();
         LastLogin = DateTime.UtcNow;
         CreatedBy = UpdatedBy = createdBy;
         CreatedUtc = UpdatedUtc = createdUtc;
@@ -81,14 +85,14 @@ public record UserEntity : EventEntity
 
     private void When(UserLogin userLogin, string createdBy, DateTime createdUtc)
     {
-        LastLogin = userLogin.LoginDateTime;
+        LastLogin = userLogin.LastLoginDateTime;
         UpdatedBy = createdBy;
         UpdatedUtc = createdUtc;
     }
 
     private void When(UserLogout userLogout, string createdBy, DateTime createdUtc)
     {
-        LastLogout = userLogout.LogoutDateTime;
+        LastLogout = userLogout.LastLogoutDateTime;
         UpdatedBy = createdBy;
         UpdatedUtc = createdUtc;
     }

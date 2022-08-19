@@ -17,7 +17,6 @@ using Pondrop.Service.Auth.Domain.Models;
 using Pondrop.Service.Auth.Infrastructure.CosmosDb;
 using Pondrop.Service.Auth.Infrastructure.Dapr;
 using Pondrop.Service.Auth.Infrastructure.ServiceBus;
-using Pondrop.Service.Auth.Api.Services;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;

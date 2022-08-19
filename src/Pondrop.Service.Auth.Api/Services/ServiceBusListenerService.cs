@@ -1,4 +1,3 @@
-using AutoMapper;
 using Azure.Messaging.ServiceBus;
 using MediatR;
 using Microsoft.Extensions.Options;
@@ -6,10 +5,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Pondrop.Service.Auth.Application.Commands;
 using Pondrop.Service.Auth.Application.Models;
-using Pondrop.Service.Auth.Application.Commands;
 using Pondrop.Service.User.Application.Commands;
 using System.Text;
-using System.Xml.Linq;
 
 namespace Pondrop.Service.Auth.Api.Services;
 

@@ -1,8 +1,8 @@
-﻿using Pondrop.Service.Auth.Application.Models.Signin;
+﻿using Pondrop.Service.Auth.Api.Models;
 
 namespace Pondrop.Service.Auth.Api.Services.Interfaces;
 public interface IJWTTokenProvider
 {
-    SigninResponse Authenticate(SigninRequest request);
+    string AuthenticateShopper(TokenRequest request);
 }
 

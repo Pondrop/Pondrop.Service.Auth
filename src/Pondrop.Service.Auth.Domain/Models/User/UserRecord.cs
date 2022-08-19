@@ -3,6 +3,7 @@
 public record UserRecord(
         Guid Id,
         string Email,
+        string NormalizedEmail,
         DateTime? LastLoginDateTime,
         DateTime? LastLogoutDateTime,
         string CreatedBy,
@@ -13,6 +14,7 @@ public record UserRecord(
 {
     public UserRecord() : this(
         Guid.Empty,
+        string.Empty,
         string.Empty,
         DateTime.MinValue,
         DateTime.MinValue,

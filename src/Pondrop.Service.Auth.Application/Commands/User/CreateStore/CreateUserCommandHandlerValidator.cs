@@ -8,6 +8,6 @@ public class CreateUserCommandHandlerValidator : AbstractValidator<CreateUserCom
     
     public CreateUserCommandHandlerValidator()
     {
-        RuleFor(x => x.Email).NotEmpty();
+        RuleFor(x => x.Email).NotEmpty().EmailAddress();
     }
 }

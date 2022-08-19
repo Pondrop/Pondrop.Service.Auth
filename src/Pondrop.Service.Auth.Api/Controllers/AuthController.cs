@@ -1,12 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Pondrop.Service.Auth.Api.Services;
 using Pondrop.Service.Auth.Api.Services.Interfaces;
 using Pondrop.Service.Auth.Application.Commands;
 using Pondrop.Service.Auth.Application.Interfaces;
-using Pondrop.Service.Auth.Application.Models.Signin;
-using Pondrop.Service.Auth.Application.Commands;
 using Pondrop.Service.User.Application.Queries;
+using Pondrop.Service.Auth.Api.Models;
 
 namespace Pondrop.Service.Auth.ApiControllers;
 
@@ -38,53 +36,60 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> CreateAuth([FromBody] SigninRequest request)
     {
         Guid userId = default;
-        SigninResponse token;
+        string accessToken;
 
-        var getUserByEmailQuery = new GetUserByEmailQuery() { Email = request.Email };
-        var getUserByEmailResult = await _mediator.Send(getUserByEmailQuery);
-
-        if (getUserByEmailResult.IsSuccess && getUserByEmailResult.Value is not null)
+        try
         {
-            userId = getUserByEmailResult.Value.Id;
-            var userLoginCommand = new UserLoginCommand() { Id = userId };
-            var loginResult = await _mediator.Send(userLoginCommand);
-            await loginResult.MatchAsync(
+            var getUserByEmailQuery = new GetUserByEmailQuery() { Email = request.Email };
+            var getUserByEmailResult = await _mediator.Send(getUserByEmailQuery);
+
+            if (getUserByEmailResult.IsSuccess && getUserByEmailResult.Value is not null)
+            {
+                userId = getUserByEmailResult.Value.Id;
+                var userLoginCommand = new UserLoginCommand() { Id = userId };
+                var loginResult = await _mediator.Send(userLoginCommand);
+
+                if (!loginResult.IsSuccess)
+                    return new BadRequestObjectResult("User login has failed");
+
+                await loginResult.MatchAsync(
                        async i =>
                        {
                            await _serviceBusService.SendMessageAsync(new UpdateUserCheckpointByIdCommand() { Id = i!.Id });
                            userId = i.Id;
                        },
                        (ex, msg) => throw new Exception());
-
-            token = _jWTTokenProvider.Authenticate(new SigninRequest()
+            }
+            else
             {
-                Email = request.Email,
-            });
-        }
-        else
-        {
-            var createUserCommand = new CreateUserCommand() { Email = request.Email };
-            var createUserResult = await _mediator.Send(createUserCommand);
+                var createUserCommand = new CreateUserCommand() { Email = request.Email };
+                var createUserResult = await _mediator.Send(createUserCommand);
 
-            if (!createUserResult.IsSuccess)
-                return BadRequest();
+                if (!createUserResult.IsSuccess)
+                    return new BadRequestObjectResult("User creation has failed");
 
-            await createUserResult.MatchAsync(
+                await createUserResult.MatchAsync(
                         async i =>
                         {
                             await _serviceBusService.SendMessageAsync(new UpdateUserCheckpointByIdCommand() { Id = i!.Id });
                             userId = i.Id;
                         },
                         (ex, msg) => throw new Exception());
+            }
 
-            token = _jWTTokenProvider.Authenticate(new SigninRequest()
+            accessToken = _jWTTokenProvider.AuthenticateShopper(new TokenRequest()
             {
+                Id = userId,
                 Email = request.Email,
             });
         }
+        catch (Exception ex)
+        {
+            return new BadRequestObjectResult(ex);
+        }
 
-        if(token is null || string.IsNullOrEmpty(token.AccessToken)) return BadRequest();
-
-        return StatusCode(StatusCodes.Status200OK, token);
+        if (accessToken is null || string.IsNullOrEmpty(accessToken))
+            return new BadRequestObjectResult("No access token provided");
+        return StatusCode(StatusCodes.Status200OK, new SigninResponse(accessToken));
     }
 }
