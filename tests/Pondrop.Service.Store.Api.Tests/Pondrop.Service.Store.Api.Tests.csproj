@@ -25,16 +25,4 @@
     <ItemGroup>
       <ProjectReference Include="..\..\src\Pondrop.Service.Auth.Api\Pondrop.Service.Auth.Api.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Compile Include="..\Pondrop.Service.Auth.Application.Tests\Faker\RetailerFaker.cs">
-        <Link>Faker\RetailerFaker.cs</Link>
-      </Compile>
-      <Compile Include="..\Pondrop.Service.Auth.Application.Tests\Faker\AuthFaker.cs">
-        <Link>Faker\AuthFaker.cs</Link>
-      </Compile>
-      <Compile Include="..\Pondrop.Service.Auth.Application.Tests\Faker\AuthTypeFaker.cs">
-        <Link>Faker\AuthTypeFaker.cs</Link>
-      </Compile>
-    </ItemGroup>
 </Project>
