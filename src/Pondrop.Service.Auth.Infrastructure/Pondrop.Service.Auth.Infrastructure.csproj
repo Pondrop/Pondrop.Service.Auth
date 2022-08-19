@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CosmosDb\AuthdProcedures\**" />
+    <EmbeddedResource Remove="CosmosDb\AuthdProcedures\**" />
+    <None Remove="CosmosDb\AuthdProcedures\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.29.0" />
+    <PackageReference Include="Microsoft.Azure.EventGrid" Version="3.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <ProjectReference Include="..\Pondrop.Service.Auth.Application\Pondrop.Service.Auth.Application.csproj" />
+	  <ProjectReference Include="..\Pondrop.Service.Auth.Domain\Pondrop.Service.Auth.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ServiceBus\" />
+    <None Remove="Azure.Messaging.ServiceBus" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ServiceBus\" />
+  </ItemGroup>
+</Project>
