@@ -4,23 +4,27 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Pondrop.Service.Auth.Application.Interfaces;
 using Pondrop.Service.Auth.Application.Models;
+using Pondrop.Service.Auth.Domain.Models;
 
 namespace Pondrop.Service.User.Application.Queries;
 
 public class GetUserByEmailQueryHandler : IRequestHandler<GetUserByEmailQuery, Result<UserViewRecord?>>
 {
-    private readonly IContainerRepository<UserViewRecord> _viewRepository;
+    private readonly ICheckpointRepository<UserEntity> _viewRepository;
+    private readonly IMapper _mapper;
     private readonly IValidator<GetUserByEmailQuery> _validator;
     private readonly ILogger<GetUserByEmailQueryHandler> _logger;
 
     public GetUserByEmailQueryHandler(
-        IContainerRepository<UserViewRecord> viewRepository,
+        ICheckpointRepository<UserEntity> viewRepository,
+        IMapper mapper,
         IValidator<GetUserByEmailQuery> validator,
         ILogger<GetUserByEmailQueryHandler> logger)
     {
         _viewRepository = viewRepository;
         _validator = validator;
         _logger = logger;
+        _mapper = mapper;
     }
 
     public async Task<Result<UserViewRecord?>> Handle(GetUserByEmailQuery query, CancellationToken cancellationToken)
@@ -38,11 +42,11 @@ public class GetUserByEmailQueryHandler : IRequestHandler<GetUserByEmailQuery, R
 
         try
         {
-            var queryResult = await _viewRepository.QueryAsync($"SELECT * FROM c WHERE c.email = '{query.Email}'");
+            var queryResult = await _viewRepository.QueryAsync($"SELECT * FROM c WHERE c.normalizedEmail = '{query.Email.ToUpper()}'");
             var record = queryResult?.FirstOrDefault();
 
             result = record is not null
-                ? Result<UserViewRecord?>.Success(record)
+                ? Result<UserViewRecord?>.Success(_mapper.Map<UserViewRecord>(record))
                 : Result<UserViewRecord?>.Success(null);
         }
         catch (Exception ex)
