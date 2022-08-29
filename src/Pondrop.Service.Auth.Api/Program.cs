@@ -102,6 +102,7 @@ services.AddFluentValidation(config =>
 services.Configure<CosmosConfiguration>(configuration.GetSection(CosmosConfiguration.Key));
 services.Configure<ServiceBusConfiguration>(configuration.GetSection(ServiceBusConfiguration.Key));
 services.Configure<UserUpdateConfiguration>(configuration.GetSection(DaprEventTopicConfiguration.Key).GetSection(UserUpdateConfiguration.Key));
+services.Configure<ADConfiguration>(configuration.GetSection(ADConfiguration.Key));
 
 services.AddHostedService<ServiceBusHostedService>();
 services.AddSingleton<IServiceBusListenerService, ServiceBusListenerService>();
@@ -115,6 +116,7 @@ services.AddSingleton<ICheckpointRepository<UserEntity>, CheckpointRepository<Us
 services.AddSingleton<IContainerRepository<UserViewRecord>, ContainerRepository<UserViewRecord>>();
 services.AddSingleton<IDaprService, DaprService>();
 services.AddSingleton<IJWTTokenProvider, JWTTokenProvider>();
+services.AddSingleton<IADAuthenticationService, ADAuthenicationService>();
 services.AddSingleton<IServiceBusService, ServiceBusService>();
 
 var app = builder.Build();

@@ -25,12 +25,14 @@ namespace Pondrop.Service.Auth.Api.Tests
         private readonly Mock<IMediator> _mediatorMock;
         private readonly Mock<IJWTTokenProvider> _jwtTokenProviderMock;
         private readonly Mock<IServiceBusService> _serviceBusServiceMock;
+        private readonly Mock<IADAuthenticationService> _adAuthenticationServiceMock;
         private readonly Mock<ILogger<AuthController>> _loggerMock;
 
         public AuthControllerTests()
         {
             _mediatorMock = new Mock<IMediator>();
             _jwtTokenProviderMock = new Mock<IJWTTokenProvider>();
+            _adAuthenticationServiceMock = new Mock<IADAuthenticationService>();
             _serviceBusServiceMock = new Mock<IServiceBusService>();
             _loggerMock = new Mock<ILogger<AuthController>>();
         }
@@ -39,6 +41,7 @@ namespace Pondrop.Service.Auth.Api.Tests
          new AuthController(
              _mediatorMock.Object,
              _jwtTokenProviderMock.Object,
+             _adAuthenticationServiceMock.Object,
              _serviceBusServiceMock.Object,
              _loggerMock.Object
          );
@@ -126,7 +129,7 @@ namespace Pondrop.Service.Auth.Api.Tests
             // arrange
             var accessToken = "Test";
             var userId = Guid.NewGuid();
-            var signinRequest = new SigninRequest() { Email = string.Empty };
+            var signinRequest = new ShopperSigninRequest() { Email = string.Empty };
             var userViewRecord = AuthFaker.GetUserViewRecord(userId, signinRequest.Email);
             var userRecord = AuthFaker.GetUserRecord(userId, signinRequest.Email);
 

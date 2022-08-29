@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Pondrop.Service.Auth.Api.Models;
-public class SigninRequest
+public class ShopperSigninRequest
 {
     public string Email { get; set; }
 

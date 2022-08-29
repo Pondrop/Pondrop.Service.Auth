@@ -12,9 +12,9 @@ public static class AuthFaker
 {
     private static readonly string[] Emails = new[] { "test@test.com", "test2@test.com", "test3@test.com" };
 
-    public static SigninRequest GetSigninRequest()
+    public static ShopperSigninRequest GetSigninRequest()
     {
-        var faker = new Faker<SigninRequest>()
+        var faker = new Faker<ShopperSigninRequest>()
             .RuleFor(x => x.Email, f => f.PickRandom(Emails));
 
         return faker.Generate();
