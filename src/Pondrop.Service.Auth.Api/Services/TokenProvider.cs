@@ -30,6 +30,7 @@ public class JWTTokenProvider : IJWTTokenProvider
         try
         {
             var tokenHandler = new JwtSecurityTokenHandler();
+            tokenHandler.TokenLifetimeInMinutes = (int)TimeSpan.FromDays(10000).TotalMinutes;
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -59,7 +60,8 @@ public class JWTTokenProvider : IJWTTokenProvider
         TokenValidationParameters validationParameters = new TokenValidationParameters();
         validationParameters.IssuerSigningKey = new SymmetricSecurityKey(_tokenKey);
         validationParameters.ValidateAudience = false;
-        validationParameters.ValidateIssuer = false;    
+        validationParameters.ValidateIssuer = false;
+        validationParameters.ClockSkew = TimeSpan.FromDays(10000);
 
         ClaimsPrincipal principal = new JwtSecurityTokenHandler().ValidateToken(token, validationParameters, out var validatedToken);
 
