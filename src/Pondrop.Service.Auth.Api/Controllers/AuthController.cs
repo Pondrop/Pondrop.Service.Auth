@@ -91,7 +91,7 @@ public class AuthController : ControllerBase
                         (ex, msg) => throw new Exception());
             }
 
-            accessToken = _jwtTokenProvider.AuthenticateShopper(new TokenRequest()
+            accessToken = _jwtTokenProvider.Authenticate(new TokenRequest()
             {
                 Id = userId,
                 Email = request.Email,
@@ -124,10 +124,10 @@ public class AuthController : ControllerBase
                 return new BadRequestObjectResult("No email and/or password provided");
             }
 
-            var result = await _adAuthenticationService.IsADUserAsync(request);
+            //var result = await _adAuthenticationService.IsADUserAsync(request);
 
-            if (result != ADAuthenticationResult.Success.ToString())
-                return new BadRequestObjectResult($"Authentication Error: {result.ToString()}");
+            //if (result != ADAuthenticationResult.Success.ToString())
+            //    return new BadRequestObjectResult($"Authentication Error: {result.ToString()}");
 
             var getUserByEmailQuery = new GetUserByEmailQuery() { Email = request.Email };
             var getUserByEmailResult = await _mediator.Send(getUserByEmailQuery);
@@ -166,10 +166,11 @@ public class AuthController : ControllerBase
                         (ex, msg) => throw new Exception());
             }
 
-            accessToken = _jwtTokenProvider.AuthenticateShopper(new TokenRequest()
+            accessToken = _jwtTokenProvider.Authenticate(new TokenRequest()
             {
                 Id = userId,
                 Email = request.Email,
+                IsAdmin = true
             });
         }
         catch (Exception ex)

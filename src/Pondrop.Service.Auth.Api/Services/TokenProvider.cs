@@ -1,8 +1,10 @@
 ﻿using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Rest;
+using Pondrop.Service.Auth.Api.Enums;
 using Pondrop.Service.Auth.Api.Models;
 using Pondrop.Service.Auth.Api.Services.Interfaces;
+using Pondrop.Service.Auth.Application.Enums.User;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -24,7 +26,7 @@ public class JWTTokenProvider : IJWTTokenProvider
         _tokenKey = Encoding.UTF8.GetBytes(_configuration["JWT:Key"]);
 
     }
-    public string AuthenticateShopper(TokenRequest request)
+    public string Authenticate(TokenRequest request)
     {
         string accessToken = string.Empty;
         try
@@ -36,7 +38,8 @@ public class JWTTokenProvider : IJWTTokenProvider
                 Subject = new ClaimsIdentity(new Claim[]
                   {
                  new Claim(JwtRegisteredClaimNames.Sub, request.Id.ToString()),
-                 new Claim(JwtRegisteredClaimNames.Email, request.Email)
+                 new Claim(JwtRegisteredClaimNames.Email, request.Email),
+                 new Claim(JwtRegisteredClaimNames.Typ, request.IsAdmin ? UserType.Admin.ToString() : UserType.Shopper.ToString())
                   }),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_tokenKey), SecurityAlgorithms.HmacSha256Signature)
             };

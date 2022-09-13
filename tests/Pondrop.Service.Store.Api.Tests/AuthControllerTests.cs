@@ -66,7 +66,7 @@ namespace Pondrop.Service.Auth.Api.Tests
             .ReturnsAsync(Result<UserRecord>.Success(userRecord));
 
             _jwtTokenProviderMock
-              .Setup(x => x.AuthenticateShopper(It.Is<TokenRequest>(x => x.Email == userRecord.Email && x.Id == userRecord.Id)))
+              .Setup(x => x.Authenticate(It.Is<TokenRequest>(x => x.Email == userRecord.Email && x.Id == userRecord.Id)))
               .Returns(accessToken);
 
             var controller = GetController();
@@ -105,7 +105,7 @@ namespace Pondrop.Service.Auth.Api.Tests
               .ReturnsAsync(Result<UserRecord>.Success(userRecord));
 
             _jwtTokenProviderMock
-              .Setup(x => x.AuthenticateShopper(It.Is<TokenRequest>(x => x.Email == userRecord.Email && x.Id == userRecord.Id)))
+              .Setup(x => x.Authenticate(It.Is<TokenRequest>(x => x.Email == userRecord.Email && x.Id == userRecord.Id)))
               .Returns(accessToken);
 
             var controller = GetController();
