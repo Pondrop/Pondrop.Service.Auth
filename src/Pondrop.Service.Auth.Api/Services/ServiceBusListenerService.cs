@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Pondrop.Service.Auth.Application.Commands;
 using Pondrop.Service.Auth.Application.Models;
+using Pondrop.Service.Product.Application.Models;
 using Pondrop.Service.User.Application.Commands;
 using System.Text;
 

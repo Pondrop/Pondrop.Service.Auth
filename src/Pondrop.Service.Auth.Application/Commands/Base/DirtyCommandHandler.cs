@@ -1,10 +1,9 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Pondrop.Service.Auth.Application.Interfaces;
 using Pondrop.Service.Auth.Application.Models;
-using Pondrop.Service.Auth.Domain.Events;
-using Pondrop.Service.Auth.Domain.Models;
+using Pondrop.Service.Events;
+using Pondrop.Service.Interfaces;
+using Pondrop.Service.Models;
 
 namespace Pondrop.Service.Auth.Application.Commands;
 

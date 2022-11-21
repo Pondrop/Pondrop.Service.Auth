@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Pondrop.Service.Auth.Application.Interfaces;
-using Pondrop.Service.Auth.Application.Interfaces.Services;
 using Pondrop.Service.Auth.Application.Models;
 using Pondrop.Service.Auth.Domain.Models;
 using Pondrop.Service.Auth.Application.Commands;
+using Pondrop.Service.Interfaces;
+using Pondrop.Service.Interfaces.Services;
 
 namespace Pondrop.Service.user.Application.Commands;
 

@@ -10,13 +10,17 @@ using Pondrop.Service.Auth.Api.Configurations.Extensions;
 using Pondrop.Service.Auth.Api.Middleware;
 using Pondrop.Service.Auth.Api.Services;
 using Pondrop.Service.Auth.Api.Services.Interfaces;
-using Pondrop.Service.Auth.Application.Interfaces;
-using Pondrop.Service.Auth.Application.Interfaces.Services;
 using Pondrop.Service.Auth.Application.Models;
+using Pondrop.Service.Auth.Domain.Events.User;
 using Pondrop.Service.Auth.Domain.Models;
-using Pondrop.Service.Auth.Infrastructure.CosmosDb;
-using Pondrop.Service.Auth.Infrastructure.Dapr;
-using Pondrop.Service.Auth.Infrastructure.ServiceBus;
+using Pondrop.Service.Events;
+using Pondrop.Service.Infrastructure.CosmosDb;
+using Pondrop.Service.Infrastructure.Dapr;
+using Pondrop.Service.Infrastructure.ServiceBus;
+using Pondrop.Service.Interfaces;
+using Pondrop.Service.Interfaces.Services;
+using Pondrop.Service.Models;
+using Pondrop.Service.Product.Application.Models;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -92,7 +96,8 @@ services.AddSwaggerGen();
 services.AddAutoMapper(
     typeof(Result<>),
     typeof(EventEntity),
-    typeof(EventRepository));
+    typeof(EventRepository),
+    typeof(CreateUser));
 services.AddMediatR(
     typeof(Result<>));
 services.AddFluentValidation(config =>
@@ -119,6 +124,8 @@ services.AddSingleton<IDaprService, DaprService>();
 services.AddSingleton<IJWTTokenProvider, JWTTokenProvider>();
 services.AddSingleton<IADAuthenticationService, ADAuthenicationService>();
 services.AddSingleton<IServiceBusService, ServiceBusService>();
+
+DefaultEventTypePayloadResolver.Init(typeof(CreateUser).Assembly);
 
 var app = builder.Build();
 var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();

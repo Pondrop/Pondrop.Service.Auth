@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Pondrop.Service.Auth.Domain.Events;
 using Pondrop.Service.Auth.Domain.Events.User;
+using Pondrop.Service.Events;
+using Pondrop.Service.Models;
 
 namespace Pondrop.Service.Auth.Domain.Models;
 

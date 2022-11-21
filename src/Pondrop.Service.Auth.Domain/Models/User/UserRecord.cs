@@ -1,4 +1,6 @@
-﻿namespace Pondrop.Service.Auth.Domain.Models;
+﻿using Pondrop.Service.Models;
+
+namespace Pondrop.Service.Auth.Domain.Models;
 
 public record UserRecord(
         Guid Id,

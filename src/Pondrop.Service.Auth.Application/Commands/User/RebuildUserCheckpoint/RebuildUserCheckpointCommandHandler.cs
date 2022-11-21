@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using Pondrop.Service.Auth.Application.Commands;
-using Pondrop.Service.Auth.Application.Interfaces;
 using Pondrop.Service.Auth.Domain.Models;
+using Pondrop.Service.Interfaces;
 using Pondrop.Service.User.Application.Commands;
 
 namespace Pondrop.Service.Auth.Application.Commands;

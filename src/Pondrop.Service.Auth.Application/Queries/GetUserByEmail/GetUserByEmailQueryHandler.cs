@@ -2,9 +2,9 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Pondrop.Service.Auth.Application.Interfaces;
 using Pondrop.Service.Auth.Application.Models;
 using Pondrop.Service.Auth.Domain.Models;
+using Pondrop.Service.Interfaces;
 
 namespace Pondrop.Service.User.Application.Queries;
 

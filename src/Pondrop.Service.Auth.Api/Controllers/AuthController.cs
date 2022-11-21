@@ -2,13 +2,13 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Pondrop.Service.Auth.Api.Services.Interfaces;
 using Pondrop.Service.Auth.Application.Commands;
-using Pondrop.Service.Auth.Application.Interfaces;
 using Pondrop.Service.User.Application.Queries;
 using Pondrop.Service.Auth.Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Net.Http.Headers;
 using Pondrop.Service.Auth.Api.Enums;
 using System.Security.Claims;
+using Pondrop.Service.Interfaces;
 
 namespace Pondrop.Service.Auth.ApiControllers;
 

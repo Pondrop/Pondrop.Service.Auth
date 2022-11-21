@@ -1,7 +1,5 @@
 ﻿using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Rest;
-using Pondrop.Service.Auth.Api.Enums;
 using Pondrop.Service.Auth.Api.Models;
 using Pondrop.Service.Auth.Api.Services.Interfaces;
 using Pondrop.Service.Auth.Application.Enums.User;

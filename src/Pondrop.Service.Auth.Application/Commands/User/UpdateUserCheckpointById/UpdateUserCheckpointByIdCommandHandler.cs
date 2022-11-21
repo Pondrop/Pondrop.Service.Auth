@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using Pondrop.Service.Auth.Application.Commands;
-using Pondrop.Service.Auth.Application.Interfaces;
 using Pondrop.Service.Auth.Domain.Models;
+using Pondrop.Service.Interfaces;
 
 namespace Pondrop.Service.Auth.Application.Commands;
 

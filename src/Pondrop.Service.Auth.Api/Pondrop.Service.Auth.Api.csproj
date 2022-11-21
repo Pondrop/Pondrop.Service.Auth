@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.1.2" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
@@ -30,6 +30,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Microsoft.Identity.Client" Version="4.46.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
+    <PackageReference Include="Pondrop.Service.Infrastructure" Version="1.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.22.0" />
   </ItemGroup>
@@ -37,7 +38,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Pondrop.Service.Auth.Application\Pondrop.Service.Auth.Application.csproj" />
     <ProjectReference Include="..\Pondrop.Service.Auth.Domain\Pondrop.Service.Auth.Domain.csproj" />
-    <ProjectReference Include="..\Pondrop.Service.Auth.Infrastructure\Pondrop.Service.Auth.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
